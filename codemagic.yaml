@@ -36,11 +36,30 @@ workflows:
           fi
           sed -i '' "s/^RAWG_API_KEY=.*/RAWG_API_KEY=$RAWG_API_KEY/" iosApp/Config.xcconfig
 
+      - name: Prepare Java & Android SDK
+        script: |
+          set -e
+          chmod +x gradlew
+          # Resolve a JDK 21 (fallback 17, fallback image default) for AGP 9
+          export JAVA_HOME="$(/usr/libexec/java_home -v 21 2>/dev/null \
+            || /usr/libexec/java_home -v 17 2>/dev/null \
+            || /usr/libexec/java_home)"
+          echo "JAVA_HOME=$JAVA_HOME"
+          "$JAVA_HOME/bin/java" -version
+          echo "ANDROID_HOME=${ANDROID_HOME:-<unset>}"
+          ./gradlew --version
+
+      - name: Build Kotlin framework (simulator)
+        script: |
+          set -e
+          # Pre-build the simulator framework in a dedicated step so any Gradle
+          # failure is visible here with a clean log. The Xcode script phase
+          # will reuse the cached build.
+          ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
+
       - name: Build iOS simulator app (unsigned)
         script: |
           set -e
-          export JAVA_HOME="$(/usr/libexec/java_home -v 21)"
-          chmod +x gradlew
           xcodebuild \
             -project iosApp/iosApp.xcodeproj \
             -scheme iosApp \
@@ -51,7 +70,7 @@ workflows:
             ONLY_ACTIVE_ARCH=NO \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            build | xcpretty
+            build
 
       - name: Zip .app for Appetize
         script: |
