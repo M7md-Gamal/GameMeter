@@ -7,21 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05B0A15F2E1C000000000001 /* iosApp in Resources */ = {isa = PBXBuildFile; fileRef = 05B0A15E2E1C000000000002 /* iosApp */; };
-		05B0A1622E1C000000000003 /* GameMeter in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B0A1612E1C000000000004 /* GameMeter */; };
+		05B0A17B2E1C00000000001B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05B0A1662E1C00000000000A /* Assets.xcassets */; };
 		05B0A17A2E1C00000000001A /* GameMeterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B0A1632E1C000000000005 /* GameMeterApp.swift */; };
-		05B0A17B2E1C00000000001B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B0A1642E1C000000000006 /* ContentView.swift */; };
+		05B0A17C2E1C00000000001C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B0A1642E1C000000000006 /* ContentView.swift */; };
+		05B0A1622E1C000000000003 /* GameMeter in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B0A1612E1C000000000004 /* GameMeter */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		05B0A15D2E1C000000000007 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = iosApp.app; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		05B0A15E2E1C000000000002 /* iosApp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iosApp; sourceTree = "<group>"; };
 		05B0A1602E1C000000000008 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		05B0A1612E1C000000000004 /* GameMeter */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GameMeter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		05B0A1632E1C000000000005 /* GameMeterApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMeterApp.swift; sourceTree = "<group>"; };
 		05B0A1642E1C000000000006 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		05B0A1652E1C000000000009 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05B0A1662E1C00000000000A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		05B0A1782E1C00000000001D /* iosApp */ = {isa = PBXGroup; children = (
+				05B0A1632E1C000000000005 /* GameMeterApp.swift */,
+				05B0A1642E1C000000000006 /* ContentView.swift */,
+				05B0A1652E1C000000000009 /* Info.plist */,
+				05B0A1662E1C00000000000A /* Assets.xcassets */,
+			);
+			path = iosApp;
+			sourceTree = "<group>";
+		};
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,7 +48,7 @@
 			isa = PBXGroup;
 			children = (
 				05B0A1602E1C000000000008 /* Config.xcconfig */,
-				05B0A15E2E1C000000000002 /* iosApp */,
+				05B0A1782E1C00000000001D /* iosApp */,
 				05B0A1692E1C00000000000D /* Products */,
 				05B0A16A2E1C00000000000E /* Frameworks */,
 			);
@@ -69,16 +77,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 05B0A16C2E1C000000000010;
 			buildPhases = (
-				05B0A1672E1C00000000000B /* Frameworks */,
-				05B0A16D2E1C000000000012 /* Sources */,
-				05B0A16F2E1C000000000013 /* Resources */,
 				05B0A1712E1C000000000014 /* Build Kotlin Framework */,
+				05B0A1702E1C000000000011 /* Sources */,
+				05B0A1672E1C00000000000B /* Frameworks */,
+				05B0A16F2E1C000000000013 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
 			);
 			name = iosApp;
 			productName = iosApp;
@@ -121,7 +127,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05B0A15F2E1C000000000001 /* iosApp in Resources */,
+				05B0A17B2E1C00000000001B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +136,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		05B0A1712E1C000000000014 /* Build Kotlin Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -140,17 +147,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		05B0A16D2E1C000000000012 /* Sources */ = {
+		05B0A1702E1C000000000011 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				05B0A17A2E1C00000000001A /* GameMeterApp.swift in Sources */,
-				05B0A17B2E1C00000000001B /* ContentView.swift in Sources */,
+				05B0A17C2E1C00000000001C /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +173,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -196,6 +204,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(DEPLOYMENT_TARGET)";
 				MTL_FAST_MATH = YES;
@@ -213,12 +222,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 05B0A1602E1C000000000008 /* Config.xcconfig */;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(TEAM_ID)";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = iosApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -228,20 +237,21 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID)";
 				PRODUCT_NAME = "$(APP_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		05B0A1772E1C00000000001C /* Release */ = {
+		05B0A1772E1C00000000001E /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 05B0A1602E1C000000000008 /* Config.xcconfig */;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(TEAM_ID)";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = iosApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -251,6 +261,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID)";
 				PRODUCT_NAME = "$(APP_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -271,7 +282,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				05B0A1762E1C000000000019 /* Debug */,
-				05B0A1772E1C00000000001C /* Release */,
+				05B0A1772E1C00000000001E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
