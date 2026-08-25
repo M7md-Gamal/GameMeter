@@ -7,8 +7,15 @@
 !.idea/inspectionProfiles/
 !.idea/runConfigurations/
 .DS_Store
-/build
+build/
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+.kotlin
+
+# iOS / Xcode
+iosApp/iosApp.xcodeproj/project.xcworkspace
+iosApp/iosApp.xcodeproj/xcuserdata
+iosApp/DerivedData
+*.xcuserstate

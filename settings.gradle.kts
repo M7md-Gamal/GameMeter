@@ -19,5 +19,15 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "game meter bosta"
-include(":app")
+rootProject.name = "GameMeter"
+
+include(":androidApp")
+include(":composeApp")
+include(":core:domain")
+include(":core:data")
+include(":core:presentation")
+include(":core:ui")
+include(":feature:games:domain")
+include(":feature:games:api")
+include(":feature:games:data")
+include(":feature:games:presentation")

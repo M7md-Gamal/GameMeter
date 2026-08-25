@@ -1,0 +1,7 @@
+TEAM_ID=
+BUNDLE_ID=com.elkabsh.gamemeterbosta
+APP_NAME=GameMeter
+APP_NAME_NORMALIZED=GameMeter
+SDK_NAME=iphoneos
+DEPLOYMENT_TARGET=15.0
+RAWG_API_KEY=
