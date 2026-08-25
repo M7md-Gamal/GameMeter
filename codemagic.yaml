@@ -1,0 +1,62 @@
+# Codemagic CI/CD for GameMeter
+# Builds an unsigned iOS SIMULATOR app (.app zipped) ready to drag into appetize.io
+#
+# One-time setup in Codemagic UI:
+#   1. Add the repo (YAML recognition on).
+#   2. Create an environment variable group named `gamemeter_credentials`
+#      containing RAWG_API_KEY (marked secure).
+#   3. Run the `ios-simulator` workflow, download GameMeter-simulator.zip
+#      from the build artifacts page, upload it to appetize.io.
+
+workflows:
+  ios-simulator:
+    name: GameMeter iOS Simulator (Appetize)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - master
+    environment:
+      xcode: 16.4
+      groups:
+        - gamemeter_credentials
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $HOME/.gradle/wrapper
+        - $HOME/.konan
+    scripts:
+      - name: Inject RAWG API key
+        script: |
+          set -e
+          if [ -z "$RAWG_API_KEY" ]; then
+            echo "WARNING: RAWG_API_KEY env var is empty - API calls will fail at runtime"
+          fi
+          sed -i '' "s/^RAWG_API_KEY=.*/RAWG_API_KEY=$RAWG_API_KEY/" iosApp/Config.xcconfig
+
+      - name: Build iOS simulator app (unsigned)
+        script: |
+          set -e
+          export JAVA_HOME="$(/usr/libexec/java_home -v 21)"
+          chmod +x gradlew
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath iosApp/build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build | xcpretty
+
+      - name: Zip .app for Appetize
+        script: |
+          set -e
+          cd iosApp/build/Build/Products/Debug-iphonesimulator
+          zip -qr "$CM_BUILD_DIR/GameMeter-simulator.zip" GameMeter.app
+          ls -lh "$CM_BUILD_DIR/GameMeter-simulator.zip"
+    artifacts:
+      - GameMeter-simulator.zip
