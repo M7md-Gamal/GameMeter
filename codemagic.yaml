@@ -60,6 +60,7 @@ workflows:
       - name: Build iOS simulator app (unsigned)
         script: |
           set -e
+          export JAVA_HOME="$(/usr/libexec/java_home -v 21 2>/dev/null || /usr/libexec/java_home -v 17 2>/dev/null || /usr/libexec/java_home)"
           xcodebuild \
             -project iosApp/iosApp.xcodeproj \
             -scheme iosApp \
@@ -67,7 +68,7 @@ workflows:
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             -derivedDataPath iosApp/build \
-            ONLY_ACTIVE_ARCH=NO \
+            ARCHS=arm64 \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             build
