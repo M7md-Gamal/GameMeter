@@ -5,18 +5,21 @@ import com.elkabsh.gamemeterbosta.feature.games.data.local.entity.GameEntity
 import com.elkabsh.gamemeterbosta.feature.games.data.remote.dto.details_dto.DetailsResponseDto
 import com.elkabsh.gamemeterbosta.feature.games.data.remote.dto.screenshots_dto.ScreenshotDto
 import com.elkabsh.gamemeterbosta.feature.games.data.remote.dto.screenshots_dto.ScreenshotsResponseDto
+import com.elkabsh.gamemeterbosta.feature.games.data.remote.dto.videos_dto.VideosResponseDto
 import com.elkabsh.gamemeterbosta.feature.games.domain.model.GameDetailItem
 import kotlinx.serialization.json.Json
 
 fun createGameDetailsEntityFromDTOs(
-        gameId: Int,
-        screenshotsResponseDto: ScreenshotsResponseDto,
-        detailsResponseDto: DetailsResponseDto
+    gameId: Int,
+    screenshotsResponseDto: ScreenshotsResponseDto,
+    detailsResponseDto: DetailsResponseDto,
+    videosResponseDto: VideosResponseDto
 ): GameDetailsEntity {
     return GameDetailsEntity(
-            id = gameId,
-            description = detailsResponseDto.description,
-            screenshotsUrl = Json.encodeToString(screenshotsResponseDto.screenshotsDto)
+        id = gameId,
+        description = detailsResponseDto.description,
+        screenshotsUrl = Json.encodeToString(screenshotsResponseDto.screenshotsDto),
+        videosUrl = Json.encodeToString(videosResponseDto.results.map { it.data.x480 })
     )
 }
 
@@ -25,13 +28,14 @@ fun combineToGameDetail(game: GameEntity, details: GameDetailsEntity): GameDetai
     val screenshots = screenshotDtos.map { it.image }
 
     return GameDetailItem(
-            id = game.id,
-            name = game.name,
-            releaseDate = game.releaseDate,
-            backgroundImage = game.backgroundImage,
-            rating = game.rating,
-            description = details.description,
-            screenshotsUrl = screenshots,
-            category = game.category
+        id = game.id,
+        name = game.name,
+        releaseDate = game.releaseDate,
+        backgroundImage = game.backgroundImage,
+        rating = game.rating,
+        description = details.description,
+        screenshotsUrl = screenshots,
+        category = game.category,
+        videoUrl = Json.decodeFromString<List<String>>(details.videosUrl).firstOrNull()
     )
 }

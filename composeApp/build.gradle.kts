@@ -40,7 +40,7 @@ kotlin {
 
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
-            implementation(compose.material3)
+            implementation(libs.compose.material3)
             implementation(libs.compose.ui)
 
             implementation(libs.jetbrains.navigation.compose)
@@ -52,8 +52,14 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)
         }
+
+
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
     }
+}
+
+compose.resources {
+    packageOfResClass = "com.elkabsh.gamemeterbosta.shared.generated.resources"
 }

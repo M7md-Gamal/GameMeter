@@ -27,6 +27,7 @@ import com.elkabsh.gamemeterbosta.feature.games.presentation.game_details.compon
 import com.elkabsh.gamemeterbosta.feature.games.presentation.game_details.components.GameInfoSection
 import com.elkabsh.gamemeterbosta.feature.games.presentation.game_details.components.HeroImageSection
 import com.elkabsh.gamemeterbosta.core.ui.theme.GameMeterBostaTheme
+import com.elkabsh.gamemeterbosta.feature.games.presentation.game_details.components.VideoPlayer
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -86,6 +87,7 @@ fun GameDetailsContent(
                 HeroImageSection(
                     gameName = state.gameName,
                     gameImgUrl = state.gameImg,
+                    videoUrl = state.gameVideo,
                     onNavigateBack = { onAction(GameDetailsAction.OnBackClicked) }
                 )
                 GameInfoSection(

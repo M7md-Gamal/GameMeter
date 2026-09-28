@@ -10,6 +10,7 @@ import com.elkabsh.gamemeterbosta.core.presentation.generated.resources.error_to
 import com.elkabsh.gamemeterbosta.core.presentation.generated.resources.error_unknown
 
 fun DataError.toUiText(): UiText {
+
     val stringRes = when (this) {
         DataError.Local.DISK_FULL -> Res.string.error_disk_full
         DataError.Local.UNKNOWN -> Res.string.error_unknown

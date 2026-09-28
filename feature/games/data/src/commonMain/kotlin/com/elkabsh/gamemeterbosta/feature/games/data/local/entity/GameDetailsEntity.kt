@@ -10,5 +10,6 @@ data class GameDetailsEntity(
     val id: Int,
     val description: String,
     val screenshotsUrl: String, // Store as JSON string
+    val videosUrl: String,
     val lastUpdated: Long = Clock.System.now().toEpochMilliseconds()
 )

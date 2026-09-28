@@ -15,7 +15,7 @@ import com.elkabsh.gamemeterbosta.feature.games.data.local.type_converters.ListT
 
 @Database(
         entities = [GameEntity::class, GameDetailsEntity::class, GameRemoteKeys::class],
-        version = 2
+        version = 3
 )
 @TypeConverters(ListTypeConverter::class)
 @ConstructedBy(GamesDatabaseConstructor::class)
@@ -26,4 +26,6 @@ abstract class GamesDB : RoomDatabase() {
 }
 
 @Suppress("NO_ACTUAL_FOR_EXPECT")
-expect object GamesDatabaseConstructor : RoomDatabaseConstructor<GamesDB>
+expect object GamesDatabaseConstructor : RoomDatabaseConstructor<GamesDB> {
+    override fun initialize(): GamesDB
+}

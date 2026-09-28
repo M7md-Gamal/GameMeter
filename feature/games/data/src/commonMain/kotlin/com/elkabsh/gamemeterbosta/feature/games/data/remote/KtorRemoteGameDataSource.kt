@@ -6,6 +6,7 @@ import com.elkabsh.gamemeterbosta.core.domain.errors.DataError
 import com.elkabsh.gamemeterbosta.feature.games.data.remote.dto.details_dto.DetailsResponseDto
 import com.elkabsh.gamemeterbosta.feature.games.data.remote.dto.list_of_games_dto.GamesListResponseDto
 import com.elkabsh.gamemeterbosta.feature.games.data.remote.dto.screenshots_dto.ScreenshotsResponseDto
+import com.elkabsh.gamemeterbosta.feature.games.data.remote.dto.videos_dto.VideosResponseDto
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
@@ -37,6 +38,12 @@ class KtorRemoteGameDataSource(
         override suspend fun loadGameScreenshots(id: Int): Result<ScreenshotsResponseDto, DataError.Remote> {
             return safeCall<ScreenshotsResponseDto> {
                 client.get("games/$id/screenshots")
+        }
+    }
+
+    override suspend fun loadGameVideo(id: Int): Result<VideosResponseDto, DataError.Remote> {
+        return safeCall<VideosResponseDto> {
+            client.get("games/$id/movies")
         }
     }
 }

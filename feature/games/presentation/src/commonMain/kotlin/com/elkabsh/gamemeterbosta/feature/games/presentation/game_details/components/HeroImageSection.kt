@@ -1,5 +1,6 @@
 package com.elkabsh.gamemeterbosta.feature.games.presentation.game_details.components
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -12,12 +13,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.BrokenImage
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -31,81 +37,131 @@ import coil3.compose.SubcomposeAsyncImage
 fun HeroImageSection(
     gameName: String,
     gameImgUrl: String,
+    videoUrl: String? = null,
     onNavigateBack: () -> Unit
 ) {
+    var isPlayingVideo by rememberSaveable(videoUrl) { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(320.dp)
     ) {
-        // Background Image
-        SubcomposeAsyncImage(
-            model = gameImgUrl,
-            contentDescription = gameName,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize(),
-            loading = {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(48.dp),
-                        strokeWidth = 2.dp
+        Crossfade(
+            targetState = isPlayingVideo && videoUrl != null,
+            modifier = Modifier.fillMaxSize()
+        ) { showVideo ->
+            if (showVideo && videoUrl != null) {
+                VideoPlayer(
+                    videoUrl = videoUrl,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    // Background Image
+                    SubcomposeAsyncImage(
+                        model = gameImgUrl,
+                        contentDescription = gameName,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                        loading = {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(48.dp),
+                                    strokeWidth = 2.dp
+                                )
+                            }
+                        },
+                        error = {
+                            Icon(
+                                imageVector = Icons.Default.BrokenImage,
+                                contentDescription = null
+                            )
+                        }
+                    )
+
+                    // Gradient Overlay
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Brush.verticalGradient(
+                                    colorStops = arrayOf(
+                                        0.0f to Color.Transparent,
+                                        0.7f to Color.Transparent,
+                                        1.0f to MaterialTheme.colorScheme.background
+                                    )
+                                )
+                            )
+                    )
+
+                    // Play Button in center if video is available
+                    if (videoUrl != null) {
+                        IconButton(
+                            onClick = { isPlayingVideo = true },
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(64.dp)
+                                .background(
+                                    color = Color.Black.copy(alpha = 0.5f),
+                                    shape = CircleShape
+                                )
+                                .border(
+                                    width = 2.dp,
+                                    color = Color.White.copy(alpha = 0.8f),
+                                    shape = CircleShape
+                                )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.PlayArrow,
+                                contentDescription = "Play Video",
+                                tint = Color.White,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+                    }
+
+                    Text(
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(start = 24.dp),
+                        text = gameName,
+                        style = MaterialTheme.typography.headlineLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
-            },
-            error = {
-                Icon(
-                    imageVector = Icons.Default.BrokenImage,
-                    contentDescription = null
-                )
             }
-        )
+        }
 
-        // Gradient Overlay
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colorStops = arrayOf(
-                            0.0f to Color.Transparent,
-                            0.7f to Color.Transparent,
-                            1.0f to MaterialTheme.colorScheme.background
-                        )
-                    )
-                )
-        )
-
-        // Back Button
+        // Back / Close Video Button
         IconButton(
-            onClick = onNavigateBack,
+            onClick = {
+                if (isPlayingVideo) {
+                    isPlayingVideo = false
+                } else {
+                    onNavigateBack()
+                }
+            },
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(start = 24.dp, top = 48.dp)
                 .size(40.dp)
                 .background(
-                    color = Color.White.copy(alpha = 0.2f), shape = CircleShape
+                    color = Color.Black.copy(alpha = 0.4f), shape = CircleShape
                 )
                 .border(
-                    width = 1.dp, color = Color.White.copy(alpha = 0.1f), shape = CircleShape
+                    width = 1.dp, color = Color.White.copy(alpha = 0.2f), shape = CircleShape
                 )
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
+                contentDescription = if (isPlayingVideo) "Close Video" else "Back",
                 tint = Color.White
             )
         }
-        Text(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 24.dp),
-            text = gameName,
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
-        )
     }
 }

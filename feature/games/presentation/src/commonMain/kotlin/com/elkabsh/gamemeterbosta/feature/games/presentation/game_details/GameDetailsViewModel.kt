@@ -50,6 +50,7 @@ class GameDetailsViewModel(
                         it.copy(
                             isLoading = false,
                             gameImg = result.data.backgroundImage,
+                            gameVideo = result.data.videoUrl,
                             gameName = result.data.name,
                             gameDescription = result.data.description,
                             gameReleaseDate = result.data.releaseDate,

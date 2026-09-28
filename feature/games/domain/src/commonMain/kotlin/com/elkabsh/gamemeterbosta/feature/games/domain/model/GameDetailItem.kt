@@ -5,6 +5,7 @@ data class GameDetailItem(
     val name: String,
     val releaseDate: String,
     val backgroundImage: String,
+    val videoUrl: String?,
     val rating: Double,
     val description: String,
     val screenshotsUrl: List<String>,

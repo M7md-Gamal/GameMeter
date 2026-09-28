@@ -25,7 +25,7 @@ kotlin {
 
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
-            implementation(compose.material3)
+            implementation(libs.compose.material3)
             implementation(libs.compose.ui)
             implementation(libs.compose.material.icons.extended)
             implementation(libs.compose.uiToolingPreview)
@@ -40,13 +40,23 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.media.player)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
         }
+
+
     }
 }
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
+
+compose.resources {
+    packageOfResClass = "com.elkabsh.gamemeterbosta.feature.games.presentation.generated.resources"
+}
+
+

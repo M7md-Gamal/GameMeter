@@ -83,26 +83,29 @@ class GamesRepoImpl(
                 } else {
                     Result.Error(DataError.Remote.UNKNOWN)
                 }
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                println("testtttt"+e)
                 Result.Error(DataError.Local.UNKNOWN)
             }
         }
 
-    suspend fun fetchGameDetails(gameId: Int): EmptyResult<DataError> =
+    private suspend fun fetchGameDetails(gameId: Int): EmptyResult<DataError> =
         withContext(Dispatchers.Default) {
             try {
                 val descriptionDeferred = async { remoteDataSource.loadGameDescription(gameId) }
                 val screenshotsDeferred = async { remoteDataSource.loadGameScreenshots(gameId) }
+                val videosDeferred = async { remoteDataSource.loadGameVideo(gameId) }
 
                 val descriptionResult = descriptionDeferred.await()
                 val screenshotsResult = screenshotsDeferred.await()
+                val videosResult = videosDeferred.await()
 
                 when {
-                    descriptionResult is Result.Success && screenshotsResult is Result.Success -> {
+                    descriptionResult is Result.Success && screenshotsResult is Result.Success && videosResult is Result.Success -> {
                         try {
                             gameDatabase.gameDetailsDao().insertGameDetails(
                                 createGameDetailsEntityFromDTOs(
-                                    gameId, screenshotsResult.data, descriptionResult.data
+                                    gameId, screenshotsResult.data, descriptionResult.data, videosResult.data
                                 )
                             )
                             Result.Success(Unit)

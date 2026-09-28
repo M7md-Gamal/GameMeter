@@ -1,27 +1,29 @@
 [versions]
-agp = "9.3.2"
+agp = "9.4.1"
 android-compileSdk = "37"
 android-minSdk = "24"
-android-targetSdk = "36"
-kotlin = "2.4.10"
-composeMultiplatform = "1.12.0"
+android-targetSdk = "37"
+kotlin = "2.4.20"
+composeMultiplatform = "1.12.1"
 ksp = "2.3.7"
-room = "2.8.4"
-sqlite = "2.7.0"
+material3 = "1.9.0"
+room = "2.8.5"
+sqlite = "2.7.1"
 paging = "3.5.1"
 koin = "4.2.2"
-ktor = "3.5.2"
-coil = "3.5.0"
+ktor = "3.6.0"
+coil = "3.6.3"
 navigationMultiplatform = "2.9.2"
 androidxLifecycle = "2.11.0"
 androidxActivity = "1.13.0"
-coreKtx = "1.19.0"
+coreKtx = "1.19.1"
 materialIconsExtended = "1.7.3"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerializationJson = "1.11.0"
 junit = "4.13.2"
 androidxTestExtJunit = "1.3.0"
 espressoCore = "3.7.0"
+composeMediaPlayer = "0.11.4"
 
 [libraries]
 # Compose Multiplatform
@@ -32,6 +34,7 @@ compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.re
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 
 # Navigation (multiplatform, JetBrains)
 jetbrains-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationMultiplatform" }
@@ -85,9 +88,14 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExtJunit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
+
+media-player = { module = "io.github.kdroidfilter:composemediaplayer", version.ref = "composeMediaPlayer" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+
+
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

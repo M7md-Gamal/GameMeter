@@ -6,7 +6,6 @@ plugins {
 }
 
 kotlin {
-    jvm()
     android {
         namespace = "com.elkabsh.gamemeterbosta.core.ui"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -21,16 +20,24 @@ kotlin {
             implementation(project(":core:presentation"))
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
-            implementation(compose.material3)
+            implementation(libs.compose.material3)
             implementation(libs.compose.ui)
             implementation(libs.compose.uiToolingPreview)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiTooling)
         }
+
+
     }
 }
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
+
+compose.resources {
+    packageOfResClass = "com.elkabsh.gamemeterbosta.core.ui.generated.resources"
+}
+
+

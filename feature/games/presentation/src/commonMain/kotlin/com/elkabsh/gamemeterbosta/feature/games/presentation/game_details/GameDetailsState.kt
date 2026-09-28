@@ -6,6 +6,7 @@ data class GameDetailsState(
     val isLoading: Boolean = false,
     val error: UiText? = null,
     val gameImg: String = "",
+    val gameVideo: String? = null,
     val gameName: String = "",
     val gameDescription: String ="",
     val gameReleaseDate: String = "",
